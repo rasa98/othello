@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: org.openjfx/javafx-controls:19.0.2.1:linux">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-controls/19.0.2.1/javafx-controls-19.0.2.1-linux.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

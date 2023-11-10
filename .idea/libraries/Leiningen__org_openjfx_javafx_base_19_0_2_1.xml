@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: org.openjfx/javafx-base:19.0.2.1">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-base/19.0.2.1/javafx-base-19.0.2.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,11 +1,8 @@
 (ns othello.core
-  (:require [clojure.pprint :as pp]
-            [clojure.set :as s]
-            [clojure.java.io :as io]))
+  (:require [clojure.set :as s]))
 
-(def player-symbol {:white 'o
-                    :black 'x
-                    :valid '_})
+(declare state
+         board)
 
 (defn empty-board [row col]
   (hash-map :row row
@@ -20,29 +17,18 @@
     (hash-map :white #{[x1 y1] [x2 y2]}
               :black #{[x1 y2] [x2 y1]})))
 
-(def board (empty-board 8 8))
 
-(def start-state (center-start board))
+(defn next-player-turn [current-turn]
+  (case current-turn
+    :white :black
+    :black :white
+    :computer))
 
 (defn format-board [b]
   (do (apply print "" (range (:row b)))
       (prn)
       (doseq [[i row] (map-indexed list (:board b))]
         (print row i "\n"))))
-
-(defn spit-board
-  ([state] (spit-board state board))
-  ([state board]
-   (format-board
-     (reduce (fn [b [player positions]]
-               (let [sym (player player-symbol)]
-                 (reduce (fn [b [x y]]
-                           (assoc-in b [:board x y] sym))
-                         b
-                         positions)))
-             board
-             state))))
-
 
 
 (defn- potential-fields
@@ -77,23 +63,11 @@
                      )))
                directions)))
 
-(defn valid-fields=>to-reverse [state player board]
-  (->> (potential-fields state board)
-       (map #(vector % (valid-field % state player)))
+(defn valid-fields=>to-reverse [played-fields player]
+  (->> (potential-fields played-fields board)
+       (map #(vector % (valid-field % played-fields player)))
        (remove (fn [[field to-reverse]] (empty? to-reverse)))
        (into {})))
-
-(defn get-user-input [p valid-fields]
-  (print (str "Player " (p player-symbol) " turn.\nEnter two integers separated by a space: "))
-  (flush)
-  (let [input-line (read-line)
-        integers (map #(Integer/parseInt %) (re-seq #"\d+" input-line))]
-    (cond
-      (not= 2 (count integers)) (do (println "Invalid input. Please enter exactly two integers separated by a space.\n")
-                                 (recur p valid-fields))
-      (valid-fields (vec integers)) (vec integers)
-      :else (do (println "Can't choose that field!\n")
-                (recur p valid-fields)))))
 
 
 (defn count-winner [final-state]
@@ -104,34 +78,71 @@
       (> white black) (println (str "White won " white " : " black))
       :else (println "Its a draw!"))))
 
-(declare play)
+(declare check-game-state
+         check-game-state-full)
 
-(defn- resume-play [state board move vf->tr]
-  (let [valid-fields (set (keys vf->tr))
-        next-move (if (= move :white) :black :white)
-        _ (spit-board (assoc state :valid valid-fields))
-        chosen-field (get-user-input move valid-fields)
+
+(defn play-next-move [chosen-field]
+  (let [s @state
+        turn (:turn s)
+        next-turn (next-player-turn turn)
+        vf->tr (:valid-fields->to-reverse s)
         reverse-fields (get vf->tr chosen-field)
-        state (-> state
-                  (update move s/union (into reverse-fields (list chosen-field)))
-                  (update next-move s/difference reverse-fields))]
-    #(play state board next-move true)))
+        s (-> s
+              (update-in [:played-fields turn] s/union (into reverse-fields (list chosen-field)))
+              (update-in [:played-fields next-turn] s/difference reverse-fields)
+              (assoc :turn next-turn))
+        s (assoc s :valid-fields->to-reverse (valid-fields=>to-reverse (:played-fields s) (:turn s)))]
+    (reset! state s)
+    (check-game-state)))
 
+(defn calc-valid-fields-map [{:keys [turn played-fields]}]
+  (valid-fields=>to-reverse played-fields turn))
 
-(defn play
-  ([] (play start-state board :white true))
-  ([state board move moved?]
-   (let [vf->tr (valid-fields=>to-reverse state move board)
-         next-move (if (= move :white) :black :white)]
-     (cond
-       (seq vf->tr) #(resume-play state board move vf->tr)
-       moved? (recur state board next-move false)
-       :else (do (spit-board state)
-                 (count-winner state))
-       ))
-   ))
+(defn update-turn [s]
+  (update s :turn next-player-turn))
 
-(defn -main []
-  (trampoline play))
+(defn update-valid-fields-map [s]
+  (assoc s :valid-fields->to-reverse (calc-valid-fields-map s)))
+
+(defn change-turn [s]
+  (-> s
+      (update-turn)
+      (update-valid-fields-map)))
+
+#_(defn check-game-state-full-old []
+  (let [s @state
+        f #(seq (:valid-fields->to-reverse %))]
+    (if (f s)
+      true
+      (let [s (change-turn s)]
+        (if (f s)
+          (swap! state assoc :valid-fields->to-reverse s)
+          :end)))))
+
+(let [f #(seq (:valid-fields->to-reverse %))]
+  (defn check-game-state-full
+    ([]
+     (if (f @state)
+       true
+       (check-game-state-full (change-turn @state))))
+    ([s]
+     (if (f s)
+       (swap! state assoc :valid-fields->to-reverse s)
+       :end))))
+
+(def board (empty-board 8 8))
+
+(let [player-fields (center-start board)
+      turn :white
+      valid-fields->to-reverse (valid-fields=>to-reverse player-fields turn)]
+  (def state (atom {:played-fields            player-fields
+                    :valid-fields->to-reverse valid-fields->to-reverse
+                    :turn                     turn})))
+
+(defn check-game-state []
+  (case (check-game-state-full)
+    :end (count-winner (:played-fields @state))
+    :waiting))
 
 
