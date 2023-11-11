@@ -4,6 +4,10 @@
 (declare state
          board)
 
+(def player-types {:2-player #()
+                   :ai#1 #()
+                   :ai#2 #()})
+
 (defn empty-board [row col]
   (hash-map :row row
             :col col
@@ -23,12 +27,6 @@
     :white :black
     :black :white
     :computer))
-
-(defn format-board [b]
-  (do (apply print "" (range (:row b)))
-      (prn)
-      (doseq [[i row] (map-indexed list (:board b))]
-        (print row i "\n"))))
 
 
 (defn- potential-fields
@@ -83,8 +81,7 @@
 
 
 (defn play-next-move [chosen-field]
-  (let [s @state
-        turn (:turn s)
+  (let [{:keys [turn ai] :as s} @state
         next-turn (next-player-turn turn)
         vf->tr (:valid-fields->to-reverse s)
         reverse-fields (get vf->tr chosen-field)
@@ -92,9 +89,11 @@
               (update-in [:played-fields turn] s/union (into reverse-fields (list chosen-field)))
               (update-in [:played-fields next-turn] s/difference reverse-fields)
               (assoc :turn next-turn))
-        s (assoc s :valid-fields->to-reverse (valid-fields=>to-reverse (:played-fields s) (:turn s)))]
+        s (assoc s :valid-fields->to-reverse (valid-fields=>to-reverse (:played-fields s) next-turn))]
     (reset! state s)
-    (check-game-state)))
+    (when (= :waiting (check-game-state))
+      ((get player-types ai #()))                           ; call for ai to make a turn
+      )))
 
 (defn calc-valid-fields-map [{:keys [turn played-fields]}]
   (valid-fields=>to-reverse played-fields turn))
@@ -110,15 +109,6 @@
       (update-turn)
       (update-valid-fields-map)))
 
-#_(defn check-game-state-full-old []
-  (let [s @state
-        f #(seq (:valid-fields->to-reverse %))]
-    (if (f s)
-      true
-      (let [s (change-turn s)]
-        (if (f s)
-          (swap! state assoc :valid-fields->to-reverse s)
-          :end)))))
 
 (let [f #(seq (:valid-fields->to-reverse %))]
   (defn check-game-state-full
@@ -138,7 +128,9 @@
       valid-fields->to-reverse (valid-fields=>to-reverse player-fields turn)]
   (def state (atom {:played-fields            player-fields
                     :valid-fields->to-reverse valid-fields->to-reverse
-                    :turn                     turn})))
+                    :turn                     turn
+                    :ai                       :2-player
+                    })))
 
 (defn check-game-state []
   (case (check-game-state-full)
