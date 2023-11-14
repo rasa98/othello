@@ -30,7 +30,7 @@
 
 
 (defn- potential-fields
-  ([state] potential-fields state board)
+  ([state] (potential-fields state board))
   ([state board]
    (let [both-state (apply into (vals state))
          get-neighbour-1d (fn [x] (vector (dec x) x (inc x)))
@@ -76,8 +76,8 @@
       (> white black) (println (str "White won " white " : " black))
       :else (println "Its a draw!"))))
 
-(declare check-game-state
-         check-game-state-full)
+(declare update-game-state
+         change-turn)
 
 
 (defn play-next-move [chosen-field]
@@ -88,11 +88,9 @@
         s (-> s
               (update-in [:played-fields turn] s/union (into reverse-fields (list chosen-field)))
               (update-in [:played-fields next-turn] s/difference reverse-fields)
-              (assoc :turn next-turn))
-        s (assoc s :valid-fields->to-reverse (valid-fields=>to-reverse (:played-fields s) next-turn))]
-    (reset! state s)
-    (when (= :waiting (check-game-state))
-      ((get player-types ai #()))                           ; call for ai to make a turn
+              change-turn)]
+    (when (= :waiting (update-game-state s))
+      ((get player-types ai #()))  ; call for ai to make a turn
       )))
 
 (defn calc-valid-fields-map [{:keys [turn played-fields]}]
@@ -110,16 +108,14 @@
       (update-valid-fields-map)))
 
 
-(let [f #(seq (:valid-fields->to-reverse %))]
-  (defn check-game-state-full
-    ([]
-     (if (f @state)
-       true
-       (check-game-state-full (change-turn @state))))
-    ([s]
-     (if (f s)
-       (swap! state assoc :valid-fields->to-reverse s)
-       :end))))
+(defn check-game-state
+  [s]
+  (let [f #(seq (:valid-fields->to-reverse %))
+        s-other (change-turn s)]
+    (cond
+      (f s) [s :waiting]
+      (f s-other) [s-other :waiting]
+      :else [s :end])))
 
 (def board (empty-board 8 8))
 
@@ -132,9 +128,12 @@
                     :ai                       :2-player
                     })))
 
-(defn check-game-state []
-  (case (check-game-state-full)
-    :end (count-winner (:played-fields @state))
-    :waiting))
+(defn update-game-state [s]
+  (let [[s game-state] (check-game-state s)]
+    (reset! state s)
+    (case game-state
+      :end (count-winner (:played-fields @state))
+      :waiting)))
+
 
 

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9c650793-a828-44f0-a80a-6aa2c7c04334" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/othello/gui.clj" beforeDir="false" afterPath="$PROJECT_DIR$/src/othello/gui.clj" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Clojure Namespace" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2XqiYzNcZUYKxCOZicATFuq943b" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;cursive.last.file.extension./home/rasa/IdeaProjects/Clojure/book_exercising/othello/src&quot;: &quot;clj&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
+  }
+}</component>
+  <component name="ReplState" timestamp="1699664792396">{:repl-history {:ide [], :local [{:command &quot;(quot 7 2)&quot;, :offset 10, :ns &quot;user&quot;} {:command &quot;5&quot;, :offset 1, :ns &quot;user&quot;} {:command &quot;(empty-board 8 8)&quot;, :offset 17, :ns &quot;othello.core&quot;} {:command &quot;(center-start (empty-board 8 8))&quot;, :offset 32, :ns &quot;othello.core&quot;} {:command &quot;(:board start-board)&quot;, :offset 20, :ns &quot;othello.core&quot;} {:command &quot;(assoc-in board [:board 4 4] \&quot;o\&quot;)&quot;, :offset 33, :ns &quot;othello.core&quot;} {:command &quot;(into #{1 2 3 4} #{3 4 5 6 7})&quot;, :offset 30, :ns &quot;othello.core&quot;} {:command &quot;(vals start-state)&quot;, :offset 18, :ns &quot;othello.core&quot;} {:command &quot;(apply into (vals start-state))&quot;, :offset 31, :ns &quot;othello.core&quot;} {:command &quot;(s/intersection #{1 2 3} #{3 4 5})&quot;, :offset 34, :ns &quot;othello.core&quot;} {:command &quot;(potetial-fields start-state)&quot;, :offset 29, :ns &quot;othello.core&quot;} {:command &quot;(count (potetial-fields start-state))&quot;, :offset 37, :ns &quot;othello.core&quot;} {:command &quot;(count (potential-fields2 start-state))&quot;, :offset 39, :ns &quot;othello.core&quot;} {:command &quot;(count (potential-fields start-state))&quot;, :offset 38, :ns &quot;othello.core&quot;} {:command &quot;(potential-fields2 start-state)&quot;, :offset 31, :ns &quot;othello.core&quot;} {:command &quot;(potential-fields start-state)&quot;, :offset 30, :ns &quot;othello.core&quot;} {:command &quot;(potential-fields start-state board)&quot;, :offset 36, :ns &quot;othello.core&quot;} {:command &quot;(spit start-state)&quot;, :offset 18, :ns &quot;othello.core&quot;} {:command &quot;(take 5 (iterate #(map + [1 0] %) [5 5]))&quot;, :offset 41, :ns &quot;othello.core&quot;} {:command &quot;(take-while (fn [[x y]] (&lt; x 10)) (iterate #(map + [1 0] %) [5 5]))&quot;, :offset 67, :ns &quot;othello.core&quot;} {:command &quot;(take-while (fn [[x y]] (and (&lt; -1 x 10) (&lt; -1 y 10))) (iterate #(map + [1 0] %) [5 5]))&quot;, :offset 88, :ns &quot;othello.core&quot;} {:command &quot;(set ())&quot;, :offset 8, :ns &quot;othello.core&quot;} {:command &quot;(seq #{})&quot;, :offset 9, :ns &quot;othello.core&quot;} {:command &quot;(seq ())&quot;, :offset 8, :ns &quot;othello.core&quot;} {:command &quot;(empty? #{})&quot;, :offset 12, :ns &quot;othello.core&quot;} {:command &quot;(empty? #{1\n          })&quot;, :offset 24, :ns &quot;othello.core&quot;} {:command &quot;(set nil)&quot;, :offset 9, :ns &quot;othello.core&quot;} {:command &quot;(remove empty? [[1 2] []])&quot;, :offset 26, :ns &quot;othello.core&quot;} {:command &quot;(into {} [[1 2] [3 5]])&quot;, :offset 23, :ns &quot;othello.core&quot;} {:command &quot;(vector 1 6 seq)&quot;, :offset 16, :ns &quot;othello.core&quot;} {:command &quot;(macroexpand '(-&gt;&gt; (potential-fields state board)\n                   (map #(vector % (valid-field % state player)))\n                   (remove (fn [field to-reverse] (empty? to-reverse)))\n                   (into {})))&quot;, :offset 218, :ns &quot;othello.core&quot;} {:command &quot;*e&quot;, :offset 2, :ns &quot;othello.core&quot;} {:command &quot;(valid-field [2 3] start-state :white)&quot;, :offset 38, :ns &quot;othello.core&quot;} {:command &quot;(spit-board start-state)&quot;, :offset 24, :ns &quot;othello.core&quot;} {:command &quot;(valid-field [2 4] start-state :white)&quot;, :offset 38, :ns &quot;othello.core&quot;} {:command &quot;(valid-fields start-state :white board)&quot;, :offset 39, :ns &quot;othello.core&quot;} {:command &quot;(pp/pprint (valid-fields start-state :white board))&quot;, :offset 51, :ns &quot;othello.core&quot;} {:command &quot;(prn )&quot;, :offset 5} {:command &quot;(prn (valid-fields start-state :white board))&quot;, :offset 45, :ns &quot;othello.core&quot;} {:command &quot;(print (valid-fields start-state :white board))&quot;, :offset 47, :ns &quot;othello.core&quot;} {:command &quot;(println (valid-fields start-state :white board))&quot;, :offset 49, :ns &quot;othello.core&quot;} {:command &quot;(doseq [[k v] (valid-fields start-state :white board)] (println (str k \&quot;: \&quot; v)))&quot;, :offset 80, :ns &quot;othello.core&quot;} {:command &quot;(keys {})&quot;, :offset 9, :ns &quot;othello.core&quot;} {:command &quot;(doseq [[k v] (valid-fields start-state :black board)] (println (str k \&quot;: \&quot; v)))&quot;, :offset 80, :ns &quot;othello.core&quot;} {:command &quot;(str :key)&quot;, :offset 10, :ns &quot;othello.core&quot;} {:command &quot;(symbol :key)&quot;, :offset 13, :ns &quot;othello.core&quot;} {:command &quot;(get-user-input)&quot;, :offset 16, :ns &quot;othello.core&quot;} {:command &quot;(get-user-input :rasa)&quot;, :offset 22, :ns &quot;othello.core&quot;} {:command &quot;(#{'(1 4) '(5 6)} [1 4])&quot;, :offset 24, :ns &quot;othello.core&quot;} {:command &quot;(#{'(1 4) '(5 6)} [1 5])&quot;, :offset 24, :ns &quot;othello.core&quot;} {:command &quot;(#{'(1 4) '(5 6)} [5 6])&quot;, :offset 24, :ns &quot;othello.core&quot;} {:command &quot;(seq {})&quot;, :offset 8, :ns &quot;othello.core&quot;} {:command &quot;2&quot;, :offset 1, :ns &quot;othello.core&quot;} {:command &quot;9&quot;, :offset 1, :ns &quot;othello.core&quot;} {:command &quot;(map in (range 1 5))&quot;, :offset 20, :ns &quot;othello.core&quot;} {:command &quot;(map inc (range 1 5))&quot;, :offset 21, :ns &quot;othello.core&quot;} {:command &quot;(s/difference #{1 2 3 4 5} #{3 5 6 7})&quot;, :offset 38, :ns &quot;othello.core&quot;} {:command &quot;['-]&quot;, :offset 4, :ns &quot;othello.core&quot;} {:command &quot;[pp/pprint '-]&quot;, :offset 14, :ns &quot;othello.core&quot;} {:command &quot;[(pp/pprint '-)]&quot;, :offset 16, :ns &quot;othello.core&quot;} {:command &quot;(pp/pprint ['-])&quot;, :offset 16, :ns &quot;othello.core&quot;} {:command &quot;board&quot;, :offset 5, :ns &quot;othello.core&quot;} {:command &quot;(doseq [row (:board board)]\n  (prn row))&quot;, :offset 40, :ns &quot;othello.core&quot;} {:command &quot;(doseq [row (:board board)]\n  (prn row)\n  (prn 1))&quot;, :offset 50, :ns &quot;othello.core&quot;} {:command &quot;(doseq [row (:board board)]\n  (print row 2 \&quot;\\n\&quot;))&quot;, :offset 49, :ns &quot;othello.core&quot;} {:command &quot;(doseq [row (:board board)]\n  (print row 2 ))&quot;, :offset 45, :ns &quot;othello.core&quot;} {:command &quot;(do (prn (range (:row board)))\n    (doseq [[i row] (map-indexed list (:board board))]\n      (print row i \&quot;\\n\&quot;)))&quot;, :offset 112, :ns &quot;othello.core&quot;} {:command &quot;(do (apply print (range (:row board)))\n    (prn \&quot;\\n\&quot;)\n    (doseq [[i row] (map-indexed list (:board board))]\n      (print row i \&quot;\\n\&quot;)))&quot;, :offset 135, :ns &quot;othello.core&quot;} {:command &quot;(do (apply print (range (:row board)))    \n    (doseq [[i row] (map-indexed list (:board board))]\n      (print row i \&quot;\\n\&quot;)))&quot;, :offset 124, :ns &quot;othello.core&quot;} {:command &quot;(do (apply print (range (:row board)))  \n    (prn)\n    (doseq [[i row] (map-indexed list (:board board))]\n      (print row i \&quot;\\n\&quot;)))&quot;, :offset 132, :ns &quot;othello.core&quot;} {:command &quot;(print \&quot; \&quot; 1)&quot;, :offset 13, :ns &quot;othello.core&quot;} {:command &quot;(prn \&quot; \&quot; 1)&quot;, :offset 11, :ns &quot;othello.core&quot;} {:command &quot;(do (apply print \&quot; \&quot; (range (:row board)))  \n    (prn)\n    (doseq [[i row] (map-indexed list (:board board))]\n      (print row i \&quot;\\n\&quot;)))&quot;, :offset 136, :ns &quot;othello.core&quot;} {:command &quot;(do (apply print \&quot;\&quot; (range (:row board))) \n    (prn)\n    (doseq [[i row] (map-indexed list (:board board))]\n      (print row i \&quot;\\n\&quot;)))&quot;, :offset 134, :ns &quot;othello.core&quot;} {:command &quot;(do (apply print \&quot;\&quot; (range (:row board)))\n    (prn)\n    (doseq [[i row] (map-indexed list (:board board))]\n      (print row i \&quot;\\n\&quot;)))&quot;, :offset 26} {:command &quot;(format-board board)&quot;, :offset 20, :ns &quot;othello.core&quot;} {:command &quot;(-main)&quot;, :offset 7, :ns &quot;othello.core&quot;} {:command &quot;(require 'othello.core)&quot;, :offset 23, :ns &quot;othello.core&quot;} {:command &quot;(in-ns 'othello.core)&quot;, :offset 21, :ns &quot;othello.core&quot;} {:command &quot;1&quot;, :offset 1, :ns &quot;othello.core&quot;} {:command &quot;(inc 4)&quot;, :offset 7, :ns &quot;othello.core&quot;} {:command &quot;(import 'javafx.application.Platform)&quot;, :offset 37, :ns &quot;othello.core&quot;} {:command &quot;(require 'othello.gui)&quot;, :offset 22, :ns &quot;othello.core&quot;}], :remote []}}</component>
+  <component name="RunManager" selected="Clojure Application.othello.gui">
+    <configuration default="true" type="Babashka" factoryName="BabashkaLocalRepl" activateToolWindowBeforeRun="false">
+      <setting name="displayName" value="" />
+      <setting name="bbPath" value="" />
+      <setting name="parameters" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <setting name="workingDir" value="" />
+      <setting name="focusEditor" value="false" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="REPL for othello" type="ClojureREPL" factoryName="Local" activateToolWindowBeforeRun="false" temporary="true">
+      <option name="configVersion" value="1" />
+      <option name="displayName" value="REPL for othello" />
+      <option name="execution" value="LEININGEN" />
+      <module name="othello" />
+      <option name="options" />
+      <option name="profiles" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="ClojureREPL" factoryName="Local" activateToolWindowBeforeRun="false">
+      <option name="configVersion" value="1" />
+      <option name="options" />
+      <option name="profiles" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="ClojureREPL" factoryName="Remote" activateToolWindowBeforeRun="false">
+      <setting name="displayName" value="" />
+      <setting name="host" value="" />
+      <setting name="port" value="0" />
+      <setting name="replType" value="SOCKET" />
+      <setting name="configType" value="SPECIFY" />
+      <setting name="replPortFileType" value="STANDARD" />
+      <setting name="customPortFile" value="" />
+      <setting name="fixLineNumbers" value="false" />
+      <setting name="focusEditor" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="othello.gui" type="ClojureScriptRunConfiguration" factoryName="Clojure Script" temporary="true">
+      <option name="configVersion" value="1" />
+      <module name="othello" />
+      <option name="options" />
+      <option name="profiles" />
+      <option name="scriptPath" value="$PROJECT_DIR$/src/othello/gui.clj" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Clojure Application.othello.gui" />
+      <item itemvalue="Clojure REPL.REPL for othello" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Clojure Application.othello.gui" />
+        <item itemvalue="Clojure REPL.REPL for othello" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9c650793-a828-44f0-a80a-6aa2c7c04334" name="Changes" comment="" />
+      <created>1699363063013</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1699363063013</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/othello$othello_gui.ic" NAME="othello.gui Coverage Results" MODIFIED="1699655784165" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+</project>
