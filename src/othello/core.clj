@@ -76,22 +76,23 @@
       (> white black) (println (str "White won " white " : " black))
       :else (println "Its a draw!"))))
 
-(declare update-game-state
+(declare update-game-state-with
          change-turn)
 
 
-(defn play-next-move [chosen-field]
-  (let [{:keys [turn ai] :as s} @state
-        next-turn (next-player-turn turn)
-        vf->tr (:valid-fields->to-reverse s)
-        reverse-fields (get vf->tr chosen-field)
-        s (-> s
-              (update-in [:played-fields turn] s/union (into reverse-fields (list chosen-field)))
-              (update-in [:played-fields next-turn] s/difference reverse-fields)
-              change-turn)]
-    (when (= :waiting (update-game-state s))
-      ((get player-types ai #()))  ; call for ai to make a turn
-      )))
+(defn play-next-move
+  ([chosen-field] (play-next-move chosen-field @state))
+  ([chosen-field {:keys [turn game-mode] :as s}]
+   (let [next-turn (next-player-turn turn)
+         vf->tr (:valid-fields->to-reverse s)
+         reverse-fields (get vf->tr chosen-field)
+         new-s (-> s
+               (update-in [:played-fields turn] s/union (into reverse-fields (list chosen-field)))
+               (update-in [:played-fields next-turn] s/difference reverse-fields)
+               change-turn)]
+     (when (= :waiting (update-game-state-with new-s))
+       ((get player-types game-mode #()))     ; call for ai to make a turn
+       ))))
 
 (defn calc-valid-fields-map [{:keys [turn played-fields]}]
   (valid-fields=>to-reverse played-fields turn))
@@ -125,10 +126,10 @@
   (def state (atom {:played-fields            player-fields
                     :valid-fields->to-reverse valid-fields->to-reverse
                     :turn                     turn
-                    :ai                       :2-player
+                    :game-mode                :2-player
                     })))
 
-(defn update-game-state [s]
+(defn update-game-state-with [s]
   (let [[s game-state] (check-game-state s)]
     (reset! state s)
     (case game-state

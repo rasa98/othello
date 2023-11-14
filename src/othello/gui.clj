@@ -28,7 +28,7 @@
           })
        (concat white black)))
 
-(defn to-choose-fields [valid-fields turn ai]
+(defn to-choose-fields [valid-fields turn game-mode]
   (map (fn [[i j]]
          {:fx/type          :rectangle
           :width            75
@@ -37,18 +37,18 @@
                              -fx-stroke: lawngreen; -fx-stroke-width: 7;"
           :grid-pane/column j
           :grid-pane/row    i
-          :on-mouse-clicked (fn [_] (when (or (= ai :2-player) (= turn :white))
+          :on-mouse-clicked (fn [_] (when (or (= game-mode :2-player) (= turn :white))
                                       (prn turn [i j])
                                       (game/play-next-move [i j])))})
        valid-fields))
 
-(defn grid-pane [{:keys [turn ai played-fields valid-fields->to-reverse]}]
+(defn grid-pane [{:keys [turn game-mode played-fields valid-fields->to-reverse]}]
   (let [valid-fields (set (keys valid-fields->to-reverse))]
     {:fx/type   :grid-pane
      :alignment :center
      :children  (concat (empty-fields-without valid-fields)
                         (played-chips played-fields)
-                        (to-choose-fields valid-fields turn ai))
+                        (to-choose-fields valid-fields turn game-mode))
      :hgap      10
      :vgap      10
      :style     "-fx-background-color: grey;"
