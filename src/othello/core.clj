@@ -4,8 +4,7 @@
 (declare state
          board)
 
-(def player-types {:2-player #()
-                   :ai#1 #()
+(def player-types {:ai#1 #()
                    :ai#2 #()})
 
 (defn empty-board [row col]
@@ -68,9 +67,15 @@
        (into {})))
 
 
-(defn count-winner [final-state]
-  (let [white (count (:white final-state))
-        black (count (:black final-state))]
+(defn count-chips [{:keys [played-fields]}]
+  (let [white-numbers (count (:white played-fields))
+        black-numbers (count (:black played-fields))]
+    {:white white-numbers
+     :black black-numbers}))
+
+(defn print-winner [final-state]
+  (let [{:keys [white black]} (count-chips final-state)]
+    (println "white - " white ":" black " - black")
     (cond
       (< white black) (println (str "Black won " black " : " white))
       (> white black) (println (str "White won " white " : " black))
@@ -82,17 +87,14 @@
 
 (defn play-next-move
   ([chosen-field] (play-next-move chosen-field @state))
-  ([chosen-field {:keys [turn game-mode] :as s}]
+  ([chosen-field {:keys [turn] :as s}]
    (let [next-turn (next-player-turn turn)
          vf->tr (:valid-fields->to-reverse s)
-         reverse-fields (get vf->tr chosen-field)
-         new-s (-> s
-               (update-in [:played-fields turn] s/union (into reverse-fields (list chosen-field)))
-               (update-in [:played-fields next-turn] s/difference reverse-fields)
-               change-turn)]
-     (when (= :waiting (update-game-state-with new-s))
-       ((get player-types game-mode #()))     ; call for ai to make a turn
-       ))))
+         reverse-fields (get vf->tr chosen-field)]
+     (-> s
+         (update-in [:played-fields turn] s/union (into reverse-fields (list chosen-field)))
+         (update-in [:played-fields next-turn] s/difference reverse-fields)
+         change-turn))))
 
 (defn calc-valid-fields-map [{:keys [turn played-fields]}]
   (valid-fields=>to-reverse played-fields turn))
@@ -114,27 +116,53 @@
   (let [f #(seq (:valid-fields->to-reverse %))
         s-other (change-turn s)]
     (cond
-      (f s) [s :waiting]
-      (f s-other) [s-other :waiting]
+      (f s) [s :other-player-turn]
+      (f s-other) [s-other :same-player-turn]
       :else [s :end])))
 
 (def board (empty-board 8 8))
 
-(let [player-fields (center-start board)
+(let [played-fields (center-start board)
       turn :white
-      valid-fields->to-reverse (valid-fields=>to-reverse player-fields turn)]
-  (def state (atom {:played-fields            player-fields
+      valid-fields->to-reverse (valid-fields=>to-reverse played-fields turn)]
+  (def state (atom {:played-fields            played-fields
                     :valid-fields->to-reverse valid-fields->to-reverse
                     :turn                     turn
                     :game-mode                :2-player
                     })))
 
+(defn restart-state [s]
+  (reset! state (merge @state s)))
+
 (defn update-game-state-with [s]
-  (let [[s game-state] (check-game-state s)]
+  (let [[s _ :as pair] (check-game-state s)]
     (reset! state s)
-    (case game-state
-      :end (count-winner (:played-fields @state))
-      :waiting)))
+    pair))
+
+(def abc (atom 0))
+
+(defn play-ai-turn [{:keys [game-mode] :as new-state}]
+  (when (not= game-mode :2-player)
+    (let [ai-estimation (game-mode 5 new-state)
+          ai-chosen-field (rand-nth (:best-paths ai-estimation))
+          [s turn-state] (update-game-state-with (play-next-move ai-chosen-field))]
+      (prn ai-estimation)
+      (prn ai-chosen-field)
+      (prn "times reduced last turn:" @abc)
+      (reset! abc 0)
+      (case turn-state
+        :same-player-turn (recur s)
+        :end (print-winner s)
+        nil))))
+
+
+(defn take-player-move [choosen-field]
+  (let [[new-state turn-state] (update-game-state-with
+                                 (play-next-move choosen-field))]
+    (case turn-state
+      :other-player-turn (future (play-ai-turn new-state))
+      :end (print-winner new-state)
+      nil)))
 
 
 
